@@ -4,12 +4,12 @@ import './navbar.css'
 export default function NavBar() {
     return (
         <nav>
-            <ul>
+            <ul className='navlist'>
                 <li>
-                    <NavLink to="aggiungi-task">Aggiungi Task</NavLink>
+                    <NavLink to="lista-task" className='navitem'>LISTA TASK</NavLink>
                 </li>
                 <li>
-                    <NavLink to="lista-task">Lista Task</NavLink>
+                    <NavLink to="aggiungi-task" className='navitem'>AGGIUNGI TASK</NavLink>
                 </li>
             </ul>
         </nav>

@@ -1,0 +1,8 @@
+.navlist {
+    display: flex;
+    padding: 20px;
+}
+
+.navitem {
+    margin-right: 20px;
+}
