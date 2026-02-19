@@ -3,7 +3,7 @@ import './navbar.css'
 
 export default function NavBar() {
     return (
-        <nav>
+        <nav className='navbar'>
             <ul className='navlist'>
                 <li>
                     <NavLink to="lista-task" className='navitem'>LISTA TASK</NavLink>

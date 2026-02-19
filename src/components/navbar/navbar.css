@@ -1,3 +1,8 @@
+.navbar {
+    margin-bottom: 40px;
+    box-shadow: 0pc -4px 20px 1px black;
+}
+
 .navlist {
     display: flex;
     padding: 20px;
@@ -6,3 +11,4 @@
 .navitem {
     margin-right: 20px;
 }
+
