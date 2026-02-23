@@ -6,8 +6,6 @@ import React from 'react';
 import './taskrow.css'
 
 export default React.memo(function TaskRow({ taskList }) {
-    const { taskList } = useContext(GlobalContext);
-
     console.log('TaskRow render, taskList length:', taskList.length);
 
     return (
