@@ -1,9 +1,12 @@
+import { useContext } from 'react';
 import { useState, useRef } from 'react'
 
 import './addtask.css'
+import { GlobalContext } from '../../context/GlobalContext';
 
 export default function AddTask() {
     const symbols = "!@#$%^&*()-_=+[]{}|;:'\\,.<>?/`~";
+    const { addTask } = useContext(GlobalContext)
 
     const [title, setTitle] = useState("");
     const [titleError, setTitleError] = useState('');
@@ -26,20 +29,35 @@ export default function AddTask() {
         setTitleError(validateTitle(e.target.value));
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
         const error = validateTitle(title);
-
         if (error) {
             setTitleError(error);
-            return
+            return;
         }
-        console.log({
+
+        const newTask = {
             title,
-            descriptiion: descriptionRef.current.value,
+            description: descriptionRef.current.value,
             status: statusRef.current.value
-        })
+        }
+        try {
+            await addTask(newTask)
+
+            setTitle('');
+            descriptionRef.current.value = '';
+            statusRef.current.value = 'To do';
+            setTitleError('');
+
+            console.log({
+                title,
+                descriptiion: descriptionRef.current.value,
+                status: statusRef.current.value
+            })
+        } catch (err) {
+            alert(err)
+        }
     }
 
     return (
