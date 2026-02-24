@@ -1,8 +1,8 @@
 import { useContext } from 'react';
 import { useState, useRef } from 'react'
+import { GlobalContext } from '../../context/GlobalContext';
 
 import './addtask.css'
-import { GlobalContext } from '../../context/GlobalContext';
 
 export default function AddTask() {
     const symbols = "!@#$%^&*()-_=+[]{}|;:'\\,.<>?/`~";
@@ -62,32 +62,48 @@ export default function AddTask() {
 
     return (
         <>
-            <h1>ADD TASK</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <input
-                        type='text'
-                        placeholder='Titolo'
-                        value={title}
-                        onChange={handleTitleChange}
-                    />
-                    {titleError && <span>{titleError}</span>}
+            <div className="add-task-container">  {/* ← Wrapper */}
+                <div className="add-task-header">
+                    <h1>ADD TASK</h1>
                 </div>
+                <div className="form-container">
+                    <form onSubmit={handleSubmit}>
+                        <div className="form-group">
+                            <label>Titolo</label>
+                            <input
+                                className="form-input"
+                                type='text'
+                                placeholder='Inserisci il titolo'
+                                value={title}
+                                onChange={handleTitleChange}
+                            />
+                            {titleError && <span className="error-message">{titleError}</span>}
+                        </div>
 
-                <textarea
-                    ref={descriptionRef}
-                    placeholder='Descrizione'
-                />
-                <select
-                    ref={statusRef}
-                    defaultValue="To do"
-                >
-                    <option>To do</option>
-                    <option>Doing</option>
-                    <option>Done</option>
-                </select>
-                <button>AGGIUNGI TASK</button>
-            </form>
+                        <div className="form-group">
+                            <label>Descrizione</label>
+                            <textarea
+                                className="form-textarea"
+                                ref={descriptionRef}
+                                placeholder='Descrizione della task...'
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label>Status</label>
+                            <select className="form-select" ref={statusRef} defaultValue="To do">
+                                <option>To do</option>
+                                <option>Doing</option>
+                                <option>Done</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" className="submit-btn">
+                            AGGIUNGI TASK
+                        </button>
+                    </form>
+                </div>
+            </div>
         </>
     )
 }
