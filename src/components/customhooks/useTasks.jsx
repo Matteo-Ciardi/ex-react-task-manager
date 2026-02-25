@@ -61,7 +61,24 @@ export default function useTasks() {
             })
     }
 
-    const updateTask = () => { }
+    const updateTask = ({ updatedTask }) => {
+        fetch(`${import.meta.env.VITE_API_URL}/tasks/${updatedTask.id}`, { 
+            method: "PUT",
+            body: JSON.stringify(updatedTask),
+            headers: { 'Content-Type': 'application/json' }
+        })
+        .then(res => res.json())
+        .then((data) => {
+            if(data.success) {
+                setTaskList(prev => {
+                    prev.map(task => task.id === id ? data.task : task)
+                })
+                console.log({ success: data.success, task: data.task })
+            } else {
+                throw new Error(data.message)
+            }
+        })
+    }
 
     return { taskList, addTask, removeTask, updateTask }
 
