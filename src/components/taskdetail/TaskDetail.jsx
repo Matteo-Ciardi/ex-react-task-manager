@@ -1,8 +1,9 @@
-import { useContext } from 'react'
+import { useContext, useMemo, useState } from 'react'
 import { GlobalContext } from '../../context/GlobalContext'
 import { useParams } from 'react-router-dom'
-import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import Modal from '../modal/Modal'
 
 import './taskdetail.css'
 
@@ -10,6 +11,7 @@ export default function TaskDetail() {
     const { taskList, removeTask } = useContext(GlobalContext)
     const { id } = useParams();
     const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false);
 
     const task = useMemo(() =>
         taskList?.find(t => t.id === parseInt(id)),
@@ -52,19 +54,32 @@ export default function TaskDetail() {
 
             <div className="delete-section">
                 <button className="delete-btn"
-                    onClick={async () => {
-                        try {
-                            await removeTask({ id: task.id });
-                            alert("Task eliminata correttamente")
-                            navigate('/')
-                        } catch (err) {
-                            alert(err.message)
-                        }
-                    }}
+                    onClick={() => {
+
+                        console.log("Bottone cliccato");
+                        
+                        setShowModal(true)}}
                 >
                     ELIMINA TASK
                 </button>
             </div>
+
+            <Modal
+                show={showModal}
+                onClose={() => setShowModal(false)} 
+                onConfirm={async () => {          
+                    try {
+                        await removeTask({ id: task.id });
+                        alert("Task eliminata correttamente");
+                        navigate('/');
+                    } catch (err) {
+                        alert(err.message);
+                    }
+                }}
+                title="Confermi?"
+                content={`Eliminare "${task.title}"?`}
+                confirmText="ELIMINA"
+            />
         </div>
     )
 }
