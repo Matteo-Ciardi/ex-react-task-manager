@@ -5,7 +5,6 @@ import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import './taskdetail.css'
-import useTasks from '../customhooks/useTasks'
 
 export default function TaskDetail() {
     const { taskList, removeTask } = useContext(GlobalContext)
