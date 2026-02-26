@@ -4,14 +4,16 @@ import { useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 
 import Modal from '../modal/Modal'
+import EdittaskModal from '../edittaskmodal/EditTaskModal'
 
 import './taskdetail.css'
 
 export default function TaskDetail() {
-    const { taskList, removeTask } = useContext(GlobalContext)
+    const { taskList, removeTask, updateTask } = useContext(GlobalContext)
     const { id } = useParams();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
+    const [editModal, setEditModal] = useState(false);
 
     const task = useMemo(() =>
         taskList?.find(t => t.id === parseInt(id)),
@@ -50,24 +52,45 @@ export default function TaskDetail() {
                     <div className="task-label">Creato</div>
                     <div className="task-value date">{new Date(task.createdAt).toLocaleDateString('it-IT')}</div>
                 </div>
+
+                <button onClick={() => {
+                    setEditModal(true)
+                }}>
+                    MODIFICA
+                </button>
             </div>
 
             <div className="delete-section">
                 <button className="delete-btn"
                     onClick={() => {
-
                         console.log("Bottone cliccato");
-                        
-                        setShowModal(true)}}
+                        setShowModal(true)
+                    }}
                 >
                     ELIMINA TASK
                 </button>
             </div>
 
+            <EdittaskModal
+                show={editModal}
+                task={task}
+                onClose={() => setEditModal(false)}
+                onSave={async (updatedTask) => {
+                    try {
+                        await updateTask(updatedTask);
+                        alert('Task modificata correttamente');
+                        setEditModal(false);
+                        navigate('/');
+                    } catch (err) {
+                        alert(err.message);
+                    }
+                }}
+            />
+
             <Modal
                 show={showModal}
-                onClose={() => setShowModal(false)} 
-                onConfirm={async () => {          
+                onClose={() => setShowModal(false)}
+                onConfirm={async () => {
                     try {
                         await removeTask({ id: task.id });
                         alert("Task eliminata correttamente");

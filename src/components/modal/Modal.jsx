@@ -8,7 +8,7 @@ export default function Modal({
     show = false,
     onClose = () => { },
     onConfirm = () => { },
-    confirmText = "Conferma"
+    confirmText = "ELIMINA"
 }) {
     return show && createPortal(
         <div className="modal-overlay">
