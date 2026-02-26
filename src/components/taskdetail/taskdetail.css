@@ -115,3 +115,27 @@
     transform: translateY(-1px);
     box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
 }
+
+.edit-btn {
+    padding: 0.875rem 1.75rem;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+    margin-top: 1rem;
+}
+
+.edit-btn:hover {
+    background: linear-gradient(135deg, #059669, #047857);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px 0 rgba(16, 185, 129, 0.4);
+}
+
+.edit-btn:active {
+    transform: translateY(0);
+}

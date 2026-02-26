@@ -1,4 +1,4 @@
-import { useContext, useState, useMemo } from 'react'
+import { useContext, useState, useMemo, useCallback } from 'react'
 
 import { GlobalContext } from '../../context/GlobalContext'
 import TaskRow from '../../components/taskrow/TaskRow';
@@ -9,9 +9,14 @@ export default function TaskList() {
     const { taskList } = useContext(GlobalContext);
     const [sortBy, setSortBy] = useState('createdAt');
     const [sortOrder, setSortOrder] = useState(1);
+    const [debouncedQuery, setDebouncedQuery] = useState('');
 
     const sortedTasks = useMemo(() => {
-        return [...taskList].sort((a, b) => {
+        const filteredTask = taskList.filter(task =>
+            task.title.toLowerCase().includes(debouncedQuery.toLowerCase())
+        )
+
+        return [...filteredTask].sort((a, b) => {
             let aVal = a[sortBy];
             let bVal = b[sortBy];
 
@@ -29,13 +34,36 @@ export default function TaskList() {
             const bTime = new Date(b.createdAt).getTime();
             return (aTime - bTime) * sortOrder;
         });
-    }, [taskList, sortBy, sortOrder]);
+    }, [taskList, debouncedQuery, sortBy, sortOrder]);
+
+    const debounce = (delay, callback) => {
+        let timeoutId
+
+        return (...args) => {
+            clearTimeout(timeoutId)
+            timeoutId = setTimeout(() => callback(...args), delay)
+        }
+    }
+
+    const debouncedSearch = useCallback(
+        debounce(300, (value) => {
+            setDebouncedQuery(value)
+        }), []
+    )
 
     console.log('TaskList render, items:', taskList.length);
 
     return (
         <div className="task-container">
             <h1 className="task-header">TASK LIST ({sortedTasks.length})</h1>
+            <div className="search-container">
+                <input
+                    className="search-input"
+                    type='text'
+                    placeholder='Cerca task per nome...'
+                    onChange={(e) => debouncedSearch(e.target.value)}
+                />
+            </div>
             <div className='table-head'>
                 <span className='th-pointer'
                     onClick={(e) => {

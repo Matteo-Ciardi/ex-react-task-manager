@@ -53,9 +53,10 @@ export default function TaskDetail() {
                     <div className="task-value date">{new Date(task.createdAt).toLocaleDateString('it-IT')}</div>
                 </div>
 
-                <button onClick={() => {
-                    setEditModal(true)
-                }}>
+                <button
+                    className="edit-btn"
+                    onClick={() => setEditModal(true)}
+                >
                     MODIFICA
                 </button>
             </div>
@@ -103,6 +104,6 @@ export default function TaskDetail() {
                 content={`Eliminare "${task.title}"?`}
                 confirmText="ELIMINA"
             />
-        </div>
+        </div >
     )
 }
